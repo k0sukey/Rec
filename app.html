@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="./css/photon.min.css" rel="stylesheet">
+		<script src="./app.js"></script>
+		<script src="./js/whammy.js"></script>
+		<style type="text/css">
+.capture {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 580px;
+	height: 545px;
+	font-size: 300px;
+	text-align: center;
+	color: rgba(252,96,91,0.4);
+}
+		</style>
+	</head>
+	<body onload="fetchScreens();">
+		<div class="window">
+			<header class="toolbar toolbar-header">
+				<h1 id="title" class="title">Rec</h1>
+				<div class="toolbar-actions">
+					<button class="btn btn-default pull-right" onclick="fetchScreens();">
+						<span class="icon icon-arrows-ccw"></span>
+					</button>
+				</div>
+			</header>
+			<div class="window-content">
+				<div class="pane-group">
+					<div class="pane pane-sm sidebar">
+						<ul id="screens" class="list-group"></ul>
+					</div>
+					<div class="pane" style="overflow: hidden;">
+						<video id="video"></video>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
