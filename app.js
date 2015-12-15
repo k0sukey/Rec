@@ -8,6 +8,8 @@ var desktopCapturer = electron.desktopCapturer,
 
 var app = remote.app;
 
+var currentScreen = null;
+
 function fetchScreens() {
 	var display = screen.getPrimaryDisplay(),
 		title = document.getElementById('title'),
@@ -67,6 +69,19 @@ function fetchScreens() {
 }
 
 var selectScreen = function(){
+	if (currentScreen) {
+		currentScreen.classList.remove('active');
+	}
+
+	currentScreen = this;
+	currentScreen.classList.add('active');
+
+
+	var capture = document.getElementById('capture');
+	if (capture) {
+		capture.parentNode.removeChild(capture);
+	}
+
 	var title = document.getElementById('title');
 	title.textContent = this.name + ' - Rec';
 
