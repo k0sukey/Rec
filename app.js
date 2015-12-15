@@ -15,6 +15,7 @@ function fetchScreens() {
 		title = document.getElementById('title'),
 		screens = document.getElementById('screens'),
 		video = document.getElementById('video'),
+		toast = document.getElementById('toast'),
 		capture = document.getElementById('capture');
 
 	title.textContent = 'Rec';
@@ -24,6 +25,10 @@ function fetchScreens() {
 	}
 
 	video.src = '';
+
+	if (toast) {
+		toast.parentNode.removeChild(toast);
+	}
 
 	if (capture) {
 		capture.parentNode.removeChild(capture);
@@ -76,6 +81,10 @@ var selectScreen = function(){
 	currentScreen = this;
 	currentScreen.classList.add('active');
 
+	var toast = document.getElementById('toast');
+	if (toast) {
+		toast.parentNode.removeChild(toast);
+	}
 
 	var capture = document.getElementById('capture');
 	if (capture) {
@@ -99,6 +108,7 @@ var selectScreen = function(){
 		}
 	}, function(stream){
 		var animation,
+			startTime,
 			frames = [],
 			isRecord = false;
 
@@ -109,6 +119,11 @@ var selectScreen = function(){
 		var canvas = document.createElement('canvas');
 		canvas.width = 580;
 		canvas.height = 545;
+
+		var toast = document.createElement('p');
+		toast.id = 'toast';
+		toast.className = 'toast';
+		toast.textContent = '00:00:00';
 
 		var capture = document.createElement('span');
 		capture.id = 'capture';
@@ -129,12 +144,19 @@ var selectScreen = function(){
 			} else {
 				capture.className = 'icon icon-stop capture';
 
+				startTime = Date.now();
 				frames = [];
 
 				var context = canvas.getContext('2d'),
 					draw = function(){
 						context.drawImage(video, 0, 0);
 						frames.push(canvas.toDataURL('image/webp', 1));
+
+						var diff = Date.now() - startTime,
+							hours = String(Math.floor(diff / 3600000) + 100).substring(1),
+							minutes = String(Math.floor((diff - hours * 3600000) / 60000) + 100).substring(1),
+							seconds = String(Math.round((diff - hours * 3600000 - minutes * 60000) / 1000) + 100).substring(1);
+						toast.textContent = hours + ':' + minutes + ':' + seconds;
 
 						animation = requestAnimationFrame(draw);
 					};
@@ -145,6 +167,7 @@ var selectScreen = function(){
 			isRecord = !isRecord;
 		};
 
+		video.parentNode.appendChild(toast);
 		video.parentNode.appendChild(capture);
 	}, function(e){});
 };
