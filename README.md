@@ -14,7 +14,7 @@
 ```sh
 $ git clone git@github.com:k0sukey/Rec.git
 $ cd Rec
-# npm satrt
+$ npm satrt
 ```
 
 ## Built with
