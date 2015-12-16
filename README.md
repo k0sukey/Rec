@@ -4,6 +4,10 @@
 
 ![capture](capture.png)
 
+## Features
+
+* Recording the your desktop or application window
+* Select the recording size
 
 ## Download
 
