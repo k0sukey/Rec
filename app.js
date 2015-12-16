@@ -6,9 +6,72 @@ var desktopCapturer = electron.desktopCapturer,
 	remote = electron.remote,
 	screen = electron.screen;
 
-var app = remote.app;
+var Menu = remote.Menu,
+	MenuItem = remote.MenuItem;
 
-var currentScreen = null;
+var alwaysOnTop = false,
+	currentScreen = null,
+	screenSize = {
+		width: 640,
+		height: 480
+	};
+
+function toggleAlwaysOnTop() {
+	alwaysOnTop = !alwaysOnTop;
+	remote.getCurrentWindow().setAlwaysOnTop(alwaysOnTop);
+
+	if (alwaysOnTop) {
+		document.getElementById('always-on-top').classList.add('active');
+	} else {
+		document.getElementById('always-on-top').classList.remove('active');
+	}
+}
+
+var resizeMenu = new Menu(),
+	doResize = function(item){
+		var node = document.getElementById('resize-screen'),
+			size = item.label.split(' x ');
+
+		node.innerHTML = '<span class="icon icon-text icon-resize-full"></span>' + item.label;
+		screenSize.width = parseInt(size[0], 10);
+		screenSize.height = parseInt(size[1], 10);
+
+		if (currentScreen) {
+			var click = document.createEvent('MouseEvents');
+			click.initEvent('click', false, true);
+			currentScreen.dispatchEvent(click);
+		}
+	};
+resizeMenu.append(new MenuItem({
+	label: '640 x 480',
+	type: 'radio',
+	checked: true,
+	click: doResize
+}));
+resizeMenu.append(new MenuItem({
+	label: '800 x 600',
+	type: 'radio',
+	click: doResize
+}));
+resizeMenu.append(new MenuItem({
+	label: '1280 x 800',
+	type: 'radio',
+	click: doResize
+}));
+resizeMenu.append(new MenuItem({
+	label: '1440 x 900',
+	type: 'radio',
+	click: doResize
+}));
+resizeMenu.append(new MenuItem({
+	label: '1680 x 1050',
+	type: 'radio',
+	click: doResize
+}));
+
+function resizeScreen(e) {
+	resizeMenu.popup(remote.getCurrentWindow());
+}
 
 function fetchScreens() {
 	var display = screen.getPrimaryDisplay(),
@@ -55,7 +118,7 @@ function fetchScreens() {
 			li.name = sources[i].name;
 			li.className = 'list-group-item';
 			li.onclick = selectScreen;
-			img.className = 'img-circle media-object pull-left';
+			img.className = 'img-rounded media-object pull-left';
 			img.src = sources[i].thumbnail.toDataURL();
 			img.width = 32;
 			img.height = 32;
@@ -92,18 +155,18 @@ var selectScreen = function(){
 	}
 
 	var title = document.getElementById('title');
-	title.textContent = this.name + ' - Rec';
+	title.textContent = currentScreen.name + ' - Rec';
 
 	navigator.webkitGetUserMedia({
 		audio: false,
 		video: {
 			mandatory: {
 				chromeMediaSource: 'desktop',
-				chromeMediaSourceId: this.id,
-				minWidth: 580,
-				maxWidth: 580,
-				minHeight: 545,
-				maxHeight: 545
+				chromeMediaSourceId: currentScreen.id,
+				minWidth: screenSize.width,
+				maxWidth: screenSize.width,
+				minHeight: screenSize.height,
+				maxHeight: screenSize.height
 			}
 		}
 	}, function(stream){
@@ -117,8 +180,8 @@ var selectScreen = function(){
 		video.play();
 
 		var canvas = document.createElement('canvas');
-		canvas.width = 580;
-		canvas.height = 545;
+		canvas.width = screenSize.width;
+		canvas.height = screenSize.height;
 
 		var toast = document.createElement('p');
 		toast.id = 'toast';
@@ -133,6 +196,7 @@ var selectScreen = function(){
 				capture.className = 'icon icon-camera capture';
 
 				cancelAnimationFrame(animation);
+
 				var webm = Whammy.fromImageArray(frames, 1000 / 60),
 					a = document.createElement('a'),
 					click = document.createEvent('MouseEvents');

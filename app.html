@@ -6,6 +6,10 @@
 		<script src="./app.js"></script>
 		<script src="./js/whammy.js"></script>
 		<style type="text/css">
+#video {
+	width: 580px;
+	height: 545px;
+}
 .capture {
 	position: absolute;
 	top: 0;
@@ -37,6 +41,16 @@
 			<header class="toolbar toolbar-header">
 				<h1 id="title" class="title">Rec</h1>
 				<div class="toolbar-actions">
+					<div class="btn-group">
+						<button id="always-on-top" class="btn btn-default" onclick="toggleAlwaysOnTop();">
+							<span class="icon icon-popup"></span>
+						</button>
+						<button id="resize-screen" class="btn btn-default btn-dropdown" onclick="resizeScreen();">
+							<span class="icon icon-text icon-resize-full"></span>
+							640 x 480
+						</button>
+					</div>
+
 					<button class="btn btn-default pull-right" onclick="fetchScreens();">
 						<span class="icon icon-arrows-ccw"></span>
 					</button>
@@ -47,7 +61,7 @@
 					<div class="pane pane-sm sidebar">
 						<ul id="screens" class="list-group"></ul>
 					</div>
-					<div class="pane" style="overflow: hidden;">
+					<div class="pane" style="overflow: hidden; background-color: #000000;">
 						<video id="video"></video>
 					</div>
 				</div>
