@@ -1,17 +1,38 @@
 {
   "name": "Rec",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Desktop screen recording app.",
   "main": "main.js",
   "scripts": {
-    "start": "./node_modules/.bin/electron .",
-    "package-darwin": "electron-packager . Rec --overwrite --out=packages --ignore='^/packages$' --prune --platform=darwin --arch=x64 --icon=images/Rec.icns --version=0.36.0",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "npm run font && npm run sass && npm run tsc",
+    "font": "mkdir -p vendor && cp -rf node_modules/photon/fonts/* vendor",
+    "package": "npm run compile && node_modules/.bin/electron-packager . Rec --out=package --overwrite --asar --asar-ignore-dir=vendor --platform=darwin --arch=x64 --ignore=src/ --ignore=package/ --ignore=.idea/ --ignore=.eslintrc.json --ignore=.gitignore --ignore=tsconfig.json",
+    "sass": "mkdir -p vendor && node_modules/.bin/node-sass src/style.scss vendor/photon.css",
+    "start": "electron .",
+    "tsc": "node_modules/.bin/tsc"
   },
+  "repository": "https://github.com/k0sukey/Rec",
   "author": "Kosuke Isobe",
   "license": "MIT",
   "devDependencies": {
-    "electron-packager": "^5.1.1",
-    "electron-prebuilt": "^0.36.0"
+    "@types/electron": "^1.4.27",
+    "@types/es6-promise": "0.0.32",
+    "@types/node": "^6.0.51",
+    "@types/react": "^0.14.50",
+    "@types/react-dom": "^0.14.19",
+    "@types/webrtc": "0.0.21",
+    "electron": "^1.4.1",
+    "electron-packager": "^8.3.0",
+    "eslint": "^3.11.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "node-sass": "^3.13.0",
+    "typescript": "^2.0.10"
+  },
+  "dependencies": {
+    "photon": "git+https://github.com/connors/photon.git",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
   }
 }

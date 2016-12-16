@@ -1,8 +1,8 @@
 /*
-	var vid = new Whammy.Video();
-	vid.add(canvas or data url)
-	vid.compile()
-*/
+ var vid = new Whammy.Video();
+ vid.add(canvas or data url)
+ vid.compile()
+ */
 
 window.Whammy = (function(){
 	// in this case, frames has a very specific meaning, which will be
@@ -133,7 +133,7 @@ window.Whammy = (function(){
 					//cluster insertion point
 				]
 			}
-		 ];
+		];
 
 
 		var segment = EBML[1];
@@ -145,28 +145,28 @@ window.Whammy = (function(){
 		while(frameNumber < frames.length){
 
 			var cuePoint = {
-					"id": 0xbb, // CuePoint
-					"data": [
-						{
-							"data": Math.round(clusterTimecode),
-							"id": 0xb3 // CueTime
-						},
-						{
-							"id": 0xb7, // CueTrackPositions
-							"data": [
-								{
-									"data": 1,
-									"id": 0xf7 // CueTrack
-								},
-								{
-									"data": 0, // to be filled in when we know it
-									"size": 8,
-									"id": 0xf1 // CueClusterPosition
-								}
-							]
-						}
-					]
-				};
+				"id": 0xbb, // CuePoint
+				"data": [
+					{
+						"data": Math.round(clusterTimecode),
+						"id": 0xb3 // CueTime
+					},
+					{
+						"id": 0xb7, // CueTrackPositions
+						"data": [
+							{
+								"data": 1,
+								"id": 0xf7 // CueTrack
+							},
+							{
+								"data": 0, // to be filled in when we know it
+								"size": 8,
+								"id": 0xf1 // CueClusterPosition
+							}
+						]
+					}
+				]
+			};
 
 			cues.data.push(cuePoint);
 
@@ -180,29 +180,29 @@ window.Whammy = (function(){
 
 			var clusterCounter = 0;
 			var cluster = {
-					"id": 0x1f43b675, // Cluster
-					"data": [
-						{
-							"data": Math.round(clusterTimecode),
-							"id": 0xe7 // Timecode
-						}
-					].concat(clusterFrames.map(function(webp){
-						var block = makeSimpleBlock({
-							discardable: 0,
-							frame: webp.data.slice(4),
-							invisible: 0,
-							keyframe: 1,
-							lacing: 0,
-							trackNum: 1,
-							timecode: Math.round(clusterCounter)
-						});
-						clusterCounter += webp.duration;
-						return {
-							data: block,
-							id: 0xa3
-						};
-					}))
-				}
+				"id": 0x1f43b675, // Cluster
+				"data": [
+					{
+						"data": Math.round(clusterTimecode),
+						"id": 0xe7 // Timecode
+					}
+				].concat(clusterFrames.map(function(webp){
+					var block = makeSimpleBlock({
+						discardable: 0,
+						frame: webp.data.slice(4),
+						invisible: 0,
+						keyframe: 1,
+						lacing: 0,
+						trackNum: 1,
+						timecode: Math.round(clusterCounter)
+					});
+					clusterCounter += webp.duration;
+					return {
+						data: block,
+						id: 0xa3
+					};
+				}))
+			}
 
 			//Add cluster to segment
 			segment.data.push(cluster);
@@ -404,8 +404,8 @@ window.Whammy = (function(){
 			throw "TrackNumber > 127 not supported";
 		}
 		var out = [data.trackNum | 0x80, data.timecode >> 8, data.timecode & 0xff, flags].map(function(e){
-			return String.fromCharCode(e)
-		}).join('') + data.frame;
+				return String.fromCharCode(e)
+			}).join('') + data.frame;
 
 		return out;
 	}
@@ -554,7 +554,7 @@ window.Whammy = (function(){
 				return webp;
 			}), outputAsArray);
 			callback(webm);
-			
+
 		}.bind(this));
 	};
 

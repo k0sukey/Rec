@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="./vendor/photon.css" rel="stylesheet">
+    <script src="./vendor/whammy.js"></script>
+    <script src="./vendor/gifshot.js"></script>
+  </head>
+  <body>
+    <div class="window">
+      <header class="toolbar toolbar-header">
+        <h1 id="title" class="title">Rec</h1>
+        <div id="toolbar"></div>
+      </header>
+      <div class="window-content">
+        <div class="pane-group">
+          <div id="screen" class="pane pane-sm sidebar"></div>
+          <div id="video" class="pane video"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    require('./renderer.js');
+  </script>
+</html>

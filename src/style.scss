@@ -1,0 +1,38 @@
+$font-path: './';
+
+@import '../node_modules/photon/sass/photon.scss';
+
+.toolbar {
+  -webkit-app-region: drag;
+}
+
+.video {
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.capture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 580px;
+  height: 545px;
+  font-size: 300px;
+  text-align: center;
+  color: rgba(252,96,91,0.4);
+}
+
+.toast {
+  position: absolute;
+  bottom: 0;
+  left: 140px;
+  width: 300px;
+  height: 100px;
+  margin: 0 auto 20px;
+  background-color: rgba(0,0,0,0.4);
+  font-size: 60px;
+  text-align: center;
+  color: #ffffff;
+  -webkit-border-radius: 4px;
+  box-shadow: 0 2px 2px 2px rgba(255,255,255,0.2);
+}
